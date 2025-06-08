@@ -1,0 +1,5 @@
+client/frpc.toml
+server/frps.toml
+/client/frp_0.62.1_linux_amd64.tar.gz
+/server/frp_0.62.1_linux_amd64.tar.gz
+
