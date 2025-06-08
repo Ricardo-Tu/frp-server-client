@@ -21,7 +21,7 @@ COPY ${TAR} ./
 RUN tar -xvf ${TAR}
 RUN cd ${FILE}
 RUN mkdir /frp
-RUN mv frps frps.toml /frp
+RUN mv ${FILE}/frps ${FILE}/frps.toml /frp
 RUN cd .. 
 RUN rm -rf ${FILE} ${TAR}
 
