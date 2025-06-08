@@ -1,0 +1,37 @@
+serverAddr = "frp.freefrp.net"              # frps 公网地址
+serverPort = 7000                           # frps 提供的服务端口（必须开放）
+auth.method = "token"                       # 认证方式为 token
+auth.token = "freefrp.net"                  # token 密钥（必须和 frps 配置一致）
+
+
+# 映射一个本地 HTTP 服务（例如内网 Web 管理页面）
+[[proxies]]
+name = "web1_xxxxx"
+type = "http"
+localIP = "192.168.1.2"
+localPort = 5000
+customDomains = ["nas.yourdomain.com"]
+
+# 映射 HTTPS 服务（一般是 HTTPS Web 页面）
+[[proxies]]
+name = "web2_xxxxx"
+type = "https"
+localIP = "192.168.1.2"
+localPort = 5001
+customDomains = ["nas.yourdomain.com"]
+
+# 映射 SSH 服务（使用 TCP 类型）
+[[proxies]]
+name = "tcp1_xxxxx"
+type = "tcp"
+localIP = "192.168.1.3"
+localPort = 22
+remotePort = 22222
+
+# 映射 SSH 服务（端口22）到公网的2222端口
+[[proxies]]
+name = "ssh_to_2222"
+type = "tcp"
+localIP = "127.0.0.1"              # 或者是你本机的内网 IP，比如 192.168.1.x
+localPort = 22                     # 内网 SSH 服务端口
+remotePort = 2222                  # 想让公网暴露的端口

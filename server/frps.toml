@@ -1,0 +1,47 @@
+bindAddr = "0.0.0.0"                        # frps监听的地址，0.0.0.0 表示监听所有网卡
+bindPort = 7000                             # frpc（客户端）连接 frps 的端口
+# kcpBindPort = 7000                          # (已注释) 如果启用 KCP（UDP传输协议）可指定端口
+quicBindPort = 7000                          # 启用 QUIC 传输时使用的端口
+
+vhostHTTPPort = 80                          # 映射 HTTP 服务时使用的公网端口
+vhostHTTPSPort = 443                        # 映射 HTTPS 服务时使用的公网端口
+
+transport.maxPoolCount = 2000               # 每个代理最多可建立 2000 个连接池（用于复用）
+transport.tcpMux = true                     # 启用 TCP 多路复用（一个 TCP 连接复用多个逻辑连接）
+transport.tcpMuxKeepaliveInterval = 60      # TCP 多路复用连接的保活间隔（秒）
+transport.tcpKeepalive = 7200               # 普通 TCP 连接的保活时间（秒）
+transport.tls.force = false                 # 不强制 TLS 加密（客户端可以选择明文连接）
+
+
+## 你可以通过浏览器访问 http://<frps公网IP>:7500，用 admin/admin 登录查看当前连接状态、流量等信息。
+webServer.addr = "0.0.0.0"                  # 控制台 Web 服务监听地址
+webServer.port = 7500                       # 控制台 Web 服务端口，用来配置监听服务，远程登陆网页进行配置
+webServer.user = "admin"                    # 登录用户名
+webServer.password = "admin"                # 登录密码
+webServer.pprofEnable = false               # 是否开启性能分析页面（pprof）
+
+log.to = "./frps.log"                       # 日志输出到文件路径
+log.level = "info"                          # 日志等级（trace/debug/info/warn/error）
+log.maxDays = 3                             # 日志最多保留天数
+log.disablePrintColor = false               # 是否关闭彩色输出（适用于无颜色终端）
+
+
+##  客户端中 auth.token 必须和服务器的这个一致
+
+auth.method = "token"                       # 客户端认证方式，使用 token 模式
+auth.token = "12345678"                     # 认证使用的 token，客户端必须一致
+
+## 端口分配限制与配额
+## 限定 frpc 只能映射这些端口范围（可以是 HTTP、TCP、UDP）。
+## 如果客户端尝试映射 80、22 等端口将被拒绝。
+
+allowPorts = [
+  { start = 10001, end = 50000 }
+]
+
+
+## 最大 UDP 包大小，单位字节，标准 MTU 通常是 1500
+## NAT穿透数据保留时长（小时），168小时=7天
+maxPortsPerClient = 8
+udpPacketSize = 1500
+natholeAnalysisDataReserveHours = 168
