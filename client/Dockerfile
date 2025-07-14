@@ -21,7 +21,7 @@ COPY ${TAR} ./
 RUN tar -xvf ${TAR}
 RUN cd ${FILE}
 RUN mkdir /frp 
-RUN mv ${FILE}/client ${FILE}/frpc.toml /frp
+RUN mv ${FILE}/frpc ${FILE}/frpc.toml /frp
 RUN cd .. 
 RUN rm -rf ${FILE} ${TAR}
 
